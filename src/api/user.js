@@ -2,15 +2,22 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/vue-admin-template/user/login',
+    url: '/users/login',
     method: 'post',
     data
   })
 }
 
+export function captcha() {
+  return request({
+    url: '/users/code',
+    method: 'get'
+  })
+}
+
 export function getInfo(token) {
   return request({
-    url: '/vue-admin-template/user/info',
+    url: '/users/info',
     method: 'get',
     params: { token }
   })
