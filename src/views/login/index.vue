@@ -41,20 +41,30 @@
       </el-form-item>
 
       <el-form-item prop="captcha">
-        <span class="svg-container">
-          <svg-icon icon-class="captcha" />
-        </span>
-        <el-input
-          ref="captcha"
-          v-model="loginForm.code"
-          placeholder="验证码"
-          name="code"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <img src="imgsrc" class="captcha" @click="getCaptcha" />
+
+        <el-col :span="15">
+          <span class="svg-container">
+            <svg-icon icon-class="captcha" />
+          </span>
+          <el-input
+            ref="captcha"
+            v-model="loginForm.captcha"
+            placeholder="验证码"
+            name="captcha"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+            @keyup.enter.native="handleLogin"
+          />
+        </el-col>
+        <el-col :span="5">
+          <el-image
+            style="height: 40px; "
+            :src="url"
+            class="show-pwd"
+            @click="getCaptcha"
+          />
+        </el-col>
       </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
@@ -91,15 +101,18 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        captcha: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        captcha: [{ required: true, trigger: 'blur', validator: null }]
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      url: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
     }
   },
   watch: {
@@ -126,7 +139,7 @@ export default {
     },
     getCaptcha() {
       this.$store.dispatch('user/captcha').then(data => {
-        console.log(data)
+        this.url = data
       })
     },
     handleLogin() {

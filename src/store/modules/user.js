@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, captcha, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -37,6 +37,19 @@ const actions = {
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  // get user info
+  captcha({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      captcha(state.token).then(response => {
+        const { data } = response
+
+        resolve(data)
       }).catch(error => {
         reject(error)
       })

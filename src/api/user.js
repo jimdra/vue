@@ -10,7 +10,7 @@ export function login(data) {
 
 export function captcha() {
   return request({
-    url: '/users/code',
+    url: '/admin/users/code',
     method: 'get'
   })
 }
